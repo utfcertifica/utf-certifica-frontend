@@ -14,11 +14,11 @@ const AppRoutes = () => {
 
 					<Route
 						element={
-							<Protected>
+							// <Protected>
 								<LoggedInLayout>
 									<Outlet />
 								</LoggedInLayout>
-							</Protected>
+							// </Protected>
 						}
 					>
 						<Route path="/" element={<DashboardPage />} />

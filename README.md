@@ -1,12 +1,12 @@
 ## Getting Started
 
+para instalar as dependências rode o seguinte comando
+
 ```bash
 pnpm install
 ```
 
-para instalar as dependências
-
-First, run the development server:
+Para rodar a aplicação o seguinte comando
 
 ```bash
 pnpm dev
