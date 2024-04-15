@@ -1,9 +1,14 @@
-import { AuthProvider } from "@context/auth";
-import LoginPage from "@pages/login";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Protected from "./protected";
-import LoggedInLayout from "src/layout/logged-in-layout";
+
+import { AuthProvider } from "@context/auth";
+
+import LoggedInLayout from "@layout/logged-in-layout";
+
 import DashboardPage from "@pages/dashboard";
+import EventsPage from "@pages/events";
+import LoginPage from "@pages/login";
+
+import Protected from "./protected";
 
 const AppRoutes = () => {
 	return (
@@ -15,13 +20,14 @@ const AppRoutes = () => {
 					<Route
 						element={
 							// <Protected>
-								<LoggedInLayout>
-									<Outlet />
-								</LoggedInLayout>
+							<LoggedInLayout>
+								<Outlet />
+							</LoggedInLayout>
 							// </Protected>
 						}
 					>
 						<Route path="/" element={<DashboardPage />} />
+						<Route path="/events" element={<EventsPage />} />
 					</Route>
 				</Routes>
 			</AuthProvider>
