@@ -33,6 +33,7 @@
 			"@context/*": ["src/context/*"],
 			"@models/*": ["src/models/*"],
 			"@atoms/*": ["src/atoms/*"],
+			"@layout/*": ["src/layout/*"]
 		}
 	},
 	"include": ["src"],
