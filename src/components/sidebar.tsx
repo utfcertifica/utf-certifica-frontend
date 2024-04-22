@@ -243,7 +243,11 @@ export default function Sidebar() {
 						</ListItemButton>
 					</ListItem>
 					<ListItem>
-						<ListItemButton role="menuitem" component="a" href="/">
+						<ListItemButton
+							role="menuitem"
+							component="a"
+							href="/eventos"
+						>
 							<Event fontSize={"large"} />
 							<ListItemContent>
 								<Typography level="title-lg">
@@ -253,7 +257,11 @@ export default function Sidebar() {
 						</ListItemButton>
 					</ListItem>
 					<ListItem>
-						<ListItemButton role="menuitem" component="a" href="/">
+						<ListItemButton
+							role="menuitem"
+							component="a"
+							href="/certificados"
+						>
 							<WorkspacePremium fontSize={"large"} />
 							<ListItemContent>
 								<Typography level="title-lg">
