@@ -4,6 +4,7 @@ import { AuthProvider } from "@context/auth";
 
 import LoggedInLayout from "@layout/logged-in-layout";
 
+import CertificatesPage from "@pages/certificates";
 import DashboardPage from "@pages/dashboard";
 import EventsPage from "@pages/events";
 import LoginPage from "@pages/login";
@@ -27,7 +28,11 @@ const AppRoutes = () => {
 						}
 					>
 						<Route path="/" element={<DashboardPage />} />
-						<Route path="/events" element={<EventsPage />} />
+						<Route path="/eventos" element={<EventsPage />} />
+						<Route
+							path="/certificados"
+							element={<CertificatesPage />}
+						/>
 					</Route>
 				</Routes>
 			</AuthProvider>
