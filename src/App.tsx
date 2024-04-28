@@ -1,15 +1,18 @@
-import './App.css';
-import { CssVarsProvider } from '@mui/joy/styles';
-import AppRoutes from './routes/routes';
-import { ToastContainer } from 'react-toastify';
+import "./App.css";
+import { CssVarsProvider } from "@mui/joy/styles";
+import AppRoutes from "./routes/routes";
+import { ToastContainer } from "react-toastify";
 
-import moment from 'moment';
-import 'moment/dist/locale/pt-br';
-moment.locale('pt-br');
+import moment from "moment";
+import "moment/dist/locale/pt-br";
+moment.locale("pt-br");
 
-import 'react-toastify/dist/ReactToastify.css';
-import { Provider, createStore } from 'jotai';
-import { useAtomsDebugValue } from 'jotai-devtools';
+import "react-toastify/dist/ReactToastify.css";
+import { Provider, createStore } from "jotai";
+import { useAtomsDebugValue } from "jotai-devtools";
+import { CssBaseline } from "@mui/joy";
+
+import { theme } from "./theme/theme";
 
 const myStore = createStore();
 
@@ -22,7 +25,8 @@ function App() {
 	return (
 		<Provider store={myStore}>
 			{/* <DebugAtoms /> */}
-			<CssVarsProvider disableTransitionOnChange>
+			<CssVarsProvider theme={theme} disableTransitionOnChange>
+				<CssBaseline />
 				<AppRoutes />
 				<ToastContainer />
 			</CssVarsProvider>
