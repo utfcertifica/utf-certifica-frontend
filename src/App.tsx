@@ -2,7 +2,7 @@ import './App.css';
 import { CssVarsProvider } from '@mui/joy/styles';
 import AppRoutes from './routes/routes';
 import { ToastContainer } from 'react-toastify';
-
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import moment from 'moment';
 import 'moment/dist/locale/pt-br';
 moment.locale('pt-br');
@@ -22,6 +22,7 @@ function App() {
 	return (
 		<Provider store={myStore}>
 			{/* <DebugAtoms /> */}
+			<SpeedInsights />
 			<CssVarsProvider disableTransitionOnChange>
 				<AppRoutes />
 				<ToastContainer />

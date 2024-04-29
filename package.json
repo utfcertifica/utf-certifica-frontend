@@ -25,6 +25,7 @@
     "@types/prop-types": "^15.7.11",
     "@types/react-color": "^3.0.11",
     "@types/react-router-dom": "^5.3.3",
+    "@vercel/speed-insights": "^1.0.10",
     "ClickAwayListener": "link:@mui/base/ClickAwayListener",
     "Popper": "link:@mui/base/Popper",
     "apexcharts": "^3.45.2",
