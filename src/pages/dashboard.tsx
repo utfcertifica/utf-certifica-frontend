@@ -7,8 +7,8 @@ import { PlaceDateDisplay } from "@components/place-date-display";
 import { AuthContext } from "@context/auth";
 import { getInitials } from "@utils/utils";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Image1 from '../assets/mala.png'; // Importe a primeira imagem
-import Image2 from '../assets/flor.png'; // Importe a segunda imagem
+import Image1 from '../assets/mala.png';
+import Image2 from '../assets/flor.png';
 
 type EventsMock = {
   eventId: string;
@@ -141,6 +141,7 @@ function FAQsAndSupport() {
           maxWidth: 400,
           borderRadius: "lg",
           bgcolor: "white",
+          zIndex: 1,
           [`& .${accordionSummaryClasses.button}`]: {
             color: 'black'
           },
@@ -151,6 +152,7 @@ function FAQsAndSupport() {
               bgcolor: 'white',
               color: 'black',
               paddingBlock: "0.75rem",
+              zIndex: 1,
             },
           },
         }}
