@@ -1,7 +1,7 @@
-import { Box, IconButton, Typography, useTheme } from "@mui/joy";
+import { Box, type BoxProps, IconButton, Typography, useTheme } from "@mui/joy";
 import { CrossIcon } from "./icons";
 
-type PageHeaderProps = {
+type PageHeaderProps = BoxProps & {
 	title: string;
 	subtitle: string;
 	onAddButtonClick?: () => void;
@@ -11,19 +11,22 @@ export const PageHeader = ({
 	title,
 	subtitle,
 	onAddButtonClick,
+	...props
 }: PageHeaderProps) => {
 	const theme = useTheme();
 	const colors = theme.colorSchemes.light.palette.common;
 
 	return (
 		<Box
+			{...props}
 			component="header"
 			sx={{
 				display: "flex",
 				justifyContent: "space-between",
 				alignItems: "center",
 				pb: "2rem",
-				borderBottom: `1px solid ${colors["gray-50"]}`,
+				borderBottom: `1px solid ${colors["gray-700"]}`,
+				...props.sx,
 			}}
 		>
 			<Box>
@@ -39,7 +42,7 @@ export const PageHeader = ({
 					fontSize={16}
 					fontWeight="400"
 					lineHeight={1.5}
-					textColor={colors["black-100"]}
+					textColor={colors["black-300"]}
 				>
 					{subtitle}
 				</Typography>

@@ -1,9 +1,28 @@
 {
 	"routes": [
-		{ "src": "/login", "dest": "/" },
-		{ "src": "/eventos", "dest": "/" },
-		{ "src": "/certificados", "dest": "/" },
-		{ "src": "/certificate", "dest": "/" },
-		{ "src": "/", "dest": "/" }
+		{
+			"src": "/login",
+			"dest": "/"
+		},
+		{
+			"src": "/eventos",
+			"dest": "/"
+		},
+		{
+			"src": "/certificados",
+			"dest": "/"
+		},
+		{
+			"src": "/certificate",
+			"dest": "/"
+		},
+		{
+			"src": "/novo-certificado",
+			"dest": "/"
+		},
+		{
+			"src": "/",
+			"dest": "/"
+		}
 	]
 }

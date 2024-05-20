@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { Box, Grid, IconButton } from "@mui/joy";
 
 import { ActionsIcon, DownloadIcon } from "@components/icons";
@@ -35,12 +37,18 @@ const certificatesMock: CertificatesMock[] = [
 ];
 
 const CertificatesPage = () => {
+	const navigate = useNavigate();
+
+	function handleAddCertificate() {
+		navigate("/novo-certificado");
+	}
+
 	return (
 		<PageWrapper breadcrumbLabel="Certificados">
 			<PageHeader
 				title="Certificados"
 				subtitle="29 de março de 2024"
-				onAddButtonClick={() => alert("TODO: Adicionar certificado")}
+				onAddButtonClick={handleAddCertificate}
 			/>
 			<Box component="ul" sx={{ m: 0, p: 0 }}>
 				{certificatesMock.map((certificate) => (

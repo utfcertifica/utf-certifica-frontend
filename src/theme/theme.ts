@@ -1,23 +1,44 @@
 import { extendTheme } from "@mui/joy/styles";
+import { colors, type ColorType } from "./colors";
 
 declare module "@mui/joy/styles" {
-	interface PaletteCommonOverrides {
-		"black-50": true;
-		"black-100": true;
-		"gray-50": true;
-		"purple-50": true;
-	}
+	interface PaletteCommonOverrides extends ColorType {}
 }
 
 export const theme = extendTheme({
 	colorSchemes: {
 		light: {
 			palette: {
-				common: {
-					"black-50": "rgba(38, 42, 65, 1)",
-					"black-100": "rgba(10, 10, 10, 0.5)",
-					"gray-50": "rgba(136, 136, 136, 1)",
-					"purple-50": "rgba(67, 57, 242, 1)",
+				common: colors,
+			},
+		},
+	},
+	components: {
+		JoyFormLabel: {
+			styleOverrides: {
+				root: {
+					fontSize: "0.875rem",
+					fontWeight: "bold",
+					color: colors["black-100"],
+				},
+			},
+		},
+		JoyInput: {
+			styleOverrides: {
+				root: {
+					padding: "1.5rem",
+					borderRadius: "1rem",
+					boxShadow: "none",
+					border: `1px solid ${colors["gray-300"]}`,
+					backgroundColor: colors["gray-100"],
+					color: colors["gray-900"],
+				},
+				input: {
+					"&::placeholder": {
+						opacity: 1,
+						fontSize: "1rem",
+						color: colors["gray-900"],
+					},
 				},
 			},
 		},
