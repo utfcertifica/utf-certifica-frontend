@@ -1,5 +1,14 @@
 import { useContext } from "react";
-import { Box, Button, Grid, Typography, useTheme } from "@mui/joy";
+import {
+	Avatar,
+	Box,
+	Button,
+	Grid,
+	Sheet,
+	IconButton,
+	Typography,
+	useTheme,
+} from "@mui/joy";
 
 import PageWrapper from "@components/page-wrapper";
 import { AuthContext } from "@context/auth";
