@@ -9,6 +9,7 @@ import DashboardPage from "@pages/dashboard";
 import EventsPage from "@pages/events";
 import LoginPage from "@pages/login";
 import CertificatePage from "@pages/certificate";
+import NewCertificate from "@pages/NewCertificate/new-certificate";
 
 import Protected from "./protected";
 
@@ -34,7 +35,14 @@ const AppRoutes = () => {
 							path="/certificados"
 							element={<CertificatesPage />}
 						/>
-						<Route path="/certificate" element={<CertificatePage />} />
+						<Route
+							path="/certificate"
+							element={<CertificatePage />}
+						/>
+						<Route
+							path="/novo-certificado"
+							element={<NewCertificate />}
+						/>
 					</Route>
 				</Routes>
 			</AuthProvider>
