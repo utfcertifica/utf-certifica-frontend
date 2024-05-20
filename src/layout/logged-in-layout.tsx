@@ -1,6 +1,5 @@
 import { ReactNode, useContext, useEffect } from "react";
-import { CssVarsProvider } from "@mui/joy/styles";
-import { Box, CssBaseline, GlobalStyles } from "@mui/joy";
+import { Box } from "@mui/joy";
 import Sidebar from "@components/sidebar";
 import { AuthContext } from "@context/auth";
 
@@ -14,19 +13,15 @@ function LoggedInLayout({ children }: LoggedInLayoutProps) {
 		loadUsers();
 	}, []);
 	return (
-		<CssVarsProvider disableTransitionOnChange>
-			<CssBaseline />
-			<Box
-				sx={{
-					display: "flex",
-					minHeight: "100dvh",
-				}}
-			>
-				<Sidebar />
-
-				{children}
-			</Box>
-		</CssVarsProvider>
+		<Box
+			sx={{
+				display: "flex",
+				minHeight: "100dvh",
+			}}
+		>
+			<Sidebar />
+			{children}
+		</Box>
 	);
 }
 

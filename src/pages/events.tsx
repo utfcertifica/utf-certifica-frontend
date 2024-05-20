@@ -2,8 +2,9 @@ import { useContext } from "react";
 
 import { Avatar, Box, Grid, IconButton, Typography } from "@mui/joy";
 
-import { CrossIcon, ActionsIcon } from "@components/icons";
+import { ActionsIcon } from "@components/icons";
 import { DataLabelDisplay } from "@components/data-label-display";
+import { PageHeader } from "@components/page-header";
 import PageWrapper from "@components/page-wrapper";
 import { PlaceDateDisplay } from "@components/place-date-display";
 
@@ -45,7 +46,11 @@ const eventsMock: EventsMock[] = [
 const EventsPage = () => {
 	return (
 		<PageWrapper breadcrumbLabel="Eventos">
-			<EventPageHeader />
+			<PageHeader
+				title="Eventos"
+				subtitle="29 de março de 2024"
+				onAddButtonClick={() => alert("TODO: Adicionar evento")}
+			/>
 			<Box component="ul" sx={{ m: 0, p: 0 }}>
 				{eventsMock.map((event) => (
 					<EventListItem key={event.eventId} {...event} />
@@ -55,51 +60,6 @@ const EventsPage = () => {
 	);
 };
 export default EventsPage;
-
-function EventPageHeader() {
-	return (
-		<Box
-			component="header"
-			sx={{
-				display: "flex",
-				justifyContent: "space-between",
-				alignItems: "center",
-				pb: "2rem",
-				borderBottom: "1px solid rgba(136, 136, 136, 1)",
-			}}
-		>
-			<Box>
-				<Typography
-					fontSize={40}
-					fontWeight="600"
-					lineHeight={2}
-					textColor="rgba(38, 42, 65, 1)"
-				>
-					Eventos
-				</Typography>
-				<Typography
-					fontSize={16}
-					fontWeight="400"
-					lineHeight={1.5}
-					textColor="rgba(10, 10, 10, 0.5)"
-				>
-					29 de março de 2024
-				</Typography>
-			</Box>
-			<IconButton
-				variant="solid"
-				sx={{
-					width: "2.75rem",
-					height: "2.75rem",
-					backgroundColor: "rgba(67, 57, 242, 1)",
-					borderRadius: "50%",
-				}}
-			>
-				<CrossIcon />
-			</IconButton>
-		</Box>
-	);
-}
 
 function EventListItem(props: EventsMock) {
 	const { user } = useContext(AuthContext);
