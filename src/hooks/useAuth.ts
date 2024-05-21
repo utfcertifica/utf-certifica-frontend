@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@services/api";
 import toastError from "@utils/toast-error";
@@ -6,14 +6,12 @@ import { toast } from "react-toastify";
 import { i18n } from "@translate/i18n";
 import { useSetAtom } from "jotai";
 import usersAtom from "@atoms/user";
-import { AuthContext } from "@context/auth";
 
 const useAuth = () => {
 	const navigate = useNavigate();
-	const authContext = useContext(AuthContext);
-	// const [isAuth, setIsAuth] = useState(false);
-	// const [loading, setLoading] = useState(true);
-	// const [user, setUser] = useState<User | null>(null);
+	const [isAuth, setIsAuth] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [user, setUser] = useState<User | null>(null);
 	const setUsers = useSetAtom(usersAtom);
 
 	api.interceptors.request.use(
@@ -21,7 +19,7 @@ const useAuth = () => {
 			const token = localStorage.getItem("token");
 			if (token) {
 				config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
-				authContext.isAuth = true;
+				setIsAuth(true);
 			}
 			return config;
 		},
@@ -50,8 +48,7 @@ const useAuth = () => {
 			if (error?.response?.status === 401) {
 				localStorage.removeItem("token");
 				api.defaults.headers.Authorization = "";
-
-				authContext.isAuth = false;
+				setIsAuth(false);
 			}
 			return Promise.reject(error);
 		}
@@ -61,67 +58,66 @@ const useAuth = () => {
 	useEffect(() => {
 		// const token = localStorage.getItem("token");
 		// (async () => {
-		// if (token) {
-		// 	try {
-		// 		const { data } = await api.post("/auth/refresh_token");
-		// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
-		// 		authContext.isAuth = true;
-		// 		setUser(data.user);
-		// 	} catch (err) {
-		// 		toastError(err);
-		// 	}
-		// }
-		authContext.loading = false;
-		// authContext.loading = false;
+			// if (token) {
+			// 	try {
+			// 		const { data } = await api.post("/auth/refresh_token");
+			// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
+			// 		setIsAuth(true);
+			// 		setUser(data.user);
+			// 	} catch (err) {
+			// 		toastError(err);
+			// 	}
+			// }
+			setLoading(false);
 		// })();
 	}, []);
 
 	const handleLogin = async (userData: any) => {
-		authContext.loading = true;
+		setLoading(true);
 
 		try {
 			const authFormData = new FormData();
-			authFormData.append("username", userData.email.toLowerCase());
-			authFormData.append("password", userData.password);
+			authFormData.append('username', userData.email.toLowerCase())
+			authFormData.append('password', userData.password)
 
 			const { data } = await api.post("/api/auth/signIn", authFormData);
 
-			console.log("autenticou será: ", data);
+			console.log('autenticou será: ',data);
 
 			localStorage.setItem("token", JSON.stringify(data.accessToken));
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
-			console.log("asdasd");
-			authContext.user = data;
-			authContext.isAuth = true;
+			console.log('asdasd');
+			setUser(data);
+			setIsAuth(true);
 			toast.success(i18n.t("auth.toasts.success"));
 
-			console.log("asdasd", authContext.isAuth);
+			console.log('asdasd', isAuth);
 
 			navigate("/");
-			authContext.loading = false;
+			setLoading(false);
 
 			//quebra linha
 		} catch (err) {
 			toastError(err);
-			authContext.loading = false;
+			setLoading(false);
 		}
 	};
 
 	const handleLogout = async () => {
-		authContext.loading = true;
+		setLoading(true);
 
 		try {
 			await api.delete("/auth/logout");
-			authContext.isAuth = false;
-			authContext.user = null;
+			setIsAuth(false);
+			setUser(null);
 			localStorage.removeItem("token");
 			api.defaults.headers.Authorization = "";
-			authContext.loading = false;
+			setLoading(false);
 			navigate("/login");
 		} catch (err) {
 			toastError(err);
-			authContext.loading = false;
+			setLoading(false);
 		}
 	};
 
@@ -134,9 +130,14 @@ const useAuth = () => {
 	// 	}
 	// };
 
+
+
 	return {
+		isAuth,
+		user,
+		loading,
 		handleLogin,
-		handleLogout,
+		handleLogout
 	};
 };
 
