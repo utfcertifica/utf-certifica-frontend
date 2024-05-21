@@ -1,5 +1,7 @@
 import { Box, type BoxProps, IconButton, Typography, useTheme } from "@mui/joy";
 import { CrossIcon } from "./icons";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 type PageHeaderProps = BoxProps & {
 	title: string;
@@ -15,6 +17,11 @@ export const PageHeader = ({
 }: PageHeaderProps) => {
 	const theme = useTheme();
 	const colors = theme.colorSchemes.light.palette.common;
+
+	const currentDate = new Date();
+	const formattedDate = format(currentDate, "dd 'de' MMMM 'de' yyyy", {
+		locale: ptBR,
+	});
 
 	return (
 		<Box
@@ -44,7 +51,7 @@ export const PageHeader = ({
 					lineHeight={1.5}
 					textColor={colors["black-300"]}
 				>
-					{subtitle}
+					{formattedDate}
 				</Typography>
 			</Box>
 

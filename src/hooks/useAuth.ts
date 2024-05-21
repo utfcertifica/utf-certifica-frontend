@@ -58,17 +58,17 @@ const useAuth = () => {
 	useEffect(() => {
 		// const token = localStorage.getItem("token");
 		// (async () => {
-			// if (token) {
-			// 	try {
-			// 		const { data } = await api.post("/auth/refresh_token");
-			// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
-			// 		setIsAuth(true);
-			// 		setUser(data.user);
-			// 	} catch (err) {
-			// 		toastError(err);
-			// 	}
-			// }
-			setLoading(false);
+		// if (token) {
+		// 	try {
+		// 		const { data } = await api.post("/auth/refresh_token");
+		// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
+		// 		setIsAuth(true);
+		// 		setUser(data.user);
+		// 	} catch (err) {
+		// 		toastError(err);
+		// 	}
+		// }
+		setLoading(false);
 		// })();
 	}, []);
 
@@ -77,22 +77,22 @@ const useAuth = () => {
 
 		try {
 			const authFormData = new FormData();
-			authFormData.append('username', userData.email.toLowerCase())
-			authFormData.append('password', userData.password)
+			authFormData.append("username", userData.email.toLowerCase());
+			authFormData.append("password", userData.password);
 
 			const { data } = await api.post("/api/auth/signIn", authFormData);
 
-			console.log('autenticou será: ',data);
+			console.log("autenticou será: ", data);
 
 			localStorage.setItem("token", JSON.stringify(data.accessToken));
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
-			console.log('asdasd');
+			console.log("asdasd");
 			setUser(data);
 			setIsAuth(true);
 			toast.success(i18n.t("auth.toasts.success"));
 
-			console.log('asdasd', isAuth);
+			console.log("asdasd", isAuth);
 
 			navigate("/");
 			setLoading(false);
@@ -130,14 +130,12 @@ const useAuth = () => {
 	// 	}
 	// };
 
-
-
 	return {
 		isAuth,
 		user,
 		loading,
 		handleLogin,
-		handleLogout
+		handleLogout,
 	};
 };
 
