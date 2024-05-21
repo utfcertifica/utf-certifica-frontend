@@ -1,7 +1,6 @@
 import { ReactNode, useContext, useEffect } from "react";
 import { Box } from "@mui/joy";
 import Sidebar from "@components/sidebar";
-import { AuthContext } from "@context/auth";
 
 interface LoggedInLayoutProps {
 	children?: ReactNode;

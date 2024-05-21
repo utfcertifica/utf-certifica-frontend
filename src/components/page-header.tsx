@@ -1,7 +1,7 @@
 import { Box, type BoxProps, IconButton, Typography, useTheme } from "@mui/joy";
-import { CrossIcon } from "./icons";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Add } from "@mui/icons-material";
 
 type PageHeaderProps = BoxProps & {
 	title: string;
@@ -66,7 +66,7 @@ export const PageHeader = ({
 						borderRadius: "50%",
 					}}
 				>
-					<CrossIcon />
+					<Add/>
 				</IconButton>
 			) : null}
 		</Box>

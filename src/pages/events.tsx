@@ -8,7 +8,7 @@ import { PageHeader } from "@components/page-header";
 import PageWrapper from "@components/page-wrapper";
 import { PlaceDateDisplay } from "@components/place-date-display";
 
-import { AuthContext } from "@context/auth";
+import { useAuthContext } from "@context/auth";
 
 import { getInitials } from "@utils/utils";
 
@@ -62,7 +62,7 @@ const EventsPage = () => {
 export default EventsPage;
 
 function EventListItem(props: EventsMock) {
-	const { user } = useContext(AuthContext);
+	const { user } = useAuthContext();
 
 	return (
 		<Grid
@@ -82,7 +82,9 @@ function EventListItem(props: EventsMock) {
 					src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2014/11/formacao_1600x1200-uma-mulher-virtuosa-e-feita-de-esforcos.jpg"
 					sx={{ width: "4.375rem", height: "4.375rem" }}
 				>
-					{user?.urlImagemPerfil ? null : getInitials(user?.name)}
+					{user?.urlImagemPerfil
+						? user?.urlImagemPerfil
+						: getInitials(user?.name)}
 				</Avatar>
 			</Grid>
 			<Grid xs={3}>

@@ -11,7 +11,7 @@ import {
 } from "@mui/joy";
 
 import PageWrapper from "@components/page-wrapper";
-import { AuthContext } from "@context/auth";
+import { useAuthContext } from "@context/auth";
 import logo from "@assets/utfpr.png";
 import { PageHeader } from "@components/page-header";
 
@@ -61,8 +61,7 @@ const CertificatePage = () => {
 export default CertificatePage;
 
 function CertificateListItem(props: Certificate) {
-	const { user } = useContext(AuthContext);
-	const theme = useTheme();
+
 	// Simulação de uma função de download, você precisará implementar isso
 	const handleDownload = () => {
 		console.log("Downloading...");
