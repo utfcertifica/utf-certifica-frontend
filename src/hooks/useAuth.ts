@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@services/api";
 import toastError from "@utils/toast-error";
@@ -6,12 +6,14 @@ import { toast } from "react-toastify";
 import { i18n } from "@translate/i18n";
 import { useSetAtom } from "jotai";
 import usersAtom from "@atoms/user";
+import { AuthContext } from "@context/auth";
 
 const useAuth = () => {
 	const navigate = useNavigate();
-	const [isAuth, setIsAuth] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [user, setUser] = useState<User | null>(null);
+	const authContext = useContext(AuthContext);
+	// const [isAuth, setIsAuth] = useState(false);
+	// const [loading, setLoading] = useState(true);
+	// const [user, setUser] = useState<User | null>(null);
 	const setUsers = useSetAtom(usersAtom);
 
 	api.interceptors.request.use(
@@ -19,7 +21,7 @@ const useAuth = () => {
 			const token = localStorage.getItem("token");
 			if (token) {
 				config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
-				setIsAuth(true);
+				authContext.isAuth = true;
 			}
 			return config;
 		},
@@ -48,7 +50,8 @@ const useAuth = () => {
 			if (error?.response?.status === 401) {
 				localStorage.removeItem("token");
 				api.defaults.headers.Authorization = "";
-				setIsAuth(false);
+
+				authContext.isAuth = false;
 			}
 			return Promise.reject(error);
 		}
@@ -58,69 +61,67 @@ const useAuth = () => {
 	useEffect(() => {
 		// const token = localStorage.getItem("token");
 		// (async () => {
-			// if (token) {
-			// 	try {
-			// 		const { data } = await api.post("/auth/refresh_token");
-			// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
-			// 		setIsAuth(true);
-			// 		setUser(data.user);
-			// 	} catch (err) {
-			// 		toastError(err);
-			// 	}
-			// }
-			setLoading(false);
+		// if (token) {
+		// 	try {
+		// 		const { data } = await api.post("/auth/refresh_token");
+		// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
+		// 		authContext.isAuth = true;
+		// 		setUser(data.user);
+		// 	} catch (err) {
+		// 		toastError(err);
+		// 	}
+		// }
+		authContext.loading = false;
+		// authContext.loading = false;
 		// })();
 	}, []);
 
 	const handleLogin = async (userData: any) => {
-		setLoading(true);
-
-		console.log('oi');
+		authContext.loading = true;
 
 		try {
-
 			const authFormData = new FormData();
-			authFormData.append('username', userData.email.toLowerCase())
-			authFormData.append('password', userData.password)
+			authFormData.append("username", userData.email.toLowerCase());
+			authFormData.append("password", userData.password);
 
 			const { data } = await api.post("/api/auth/signIn", authFormData);
 
-			console.log('autenticou será: ',data);
+			console.log("autenticou será: ", data);
 
 			localStorage.setItem("token", JSON.stringify(data.accessToken));
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
-			console.log('asdasd');
-			setUser(data);
-			setIsAuth(true);
+			console.log("asdasd");
+			authContext.user = data;
+			authContext.isAuth = true;
 			toast.success(i18n.t("auth.toasts.success"));
 
-			console.log('asdasd', isAuth);
+			console.log("asdasd", authContext.isAuth);
 
 			navigate("/");
-			setLoading(false);
+			authContext.loading = false;
 
 			//quebra linha
 		} catch (err) {
 			toastError(err);
-			setLoading(false);
+			authContext.loading = false;
 		}
 	};
 
 	const handleLogout = async () => {
-		setLoading(true);
+		authContext.loading = true;
 
 		try {
 			await api.delete("/auth/logout");
-			setIsAuth(false);
-			setUser(null);
+			authContext.isAuth = false;
+			authContext.user = null;
 			localStorage.removeItem("token");
 			api.defaults.headers.Authorization = "";
-			setLoading(false);
+			authContext.loading = false;
 			navigate("/login");
 		} catch (err) {
 			toastError(err);
-			setLoading(false);
+			authContext.loading = false;
 		}
 	};
 
@@ -133,14 +134,9 @@ const useAuth = () => {
 	// 	}
 	// };
 
-
-
 	return {
-		isAuth,
-		user,
-		loading,
 		handleLogin,
-		handleLogout
+		handleLogout,
 	};
 };
 
