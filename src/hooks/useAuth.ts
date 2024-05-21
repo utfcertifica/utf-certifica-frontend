@@ -54,23 +54,23 @@ const useAuth = () => {
 		}
 	);
 
-	//TODO - Backend ainda não implementado refresh-token
-	// useEffect(() => {
-	// 	const token = localStorage.getItem("token");
-	// 	(async () => {
-	// 		if (token) {
-	// 			try {
-	// 				const { data } = await api.post("/auth/refresh_token");
-	// 				api.defaults.headers.Authorization = `Bearer ${data.token}`;
-	// 				setIsAuth(true);
-	// 				setUser(data.user);
-	// 			} catch (err) {
-	// 				toastError(err);
-	// 			}
-	// 		}
-	// 		setLoading(false);
-	// 	})();
-	// }, []);
+	// TODO - Backend ainda não implementado refresh-token
+	useEffect(() => {
+		// const token = localStorage.getItem("token");
+		// (async () => {
+			// if (token) {
+			// 	try {
+			// 		const { data } = await api.post("/auth/refresh_token");
+			// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
+			// 		setIsAuth(true);
+			// 		setUser(data.user);
+			// 	} catch (err) {
+			// 		toastError(err);
+			// 	}
+			// }
+			setLoading(false);
+		// })();
+	}, []);
 
 	const handleLogin = async (userData: any) => {
 		setLoading(true);
