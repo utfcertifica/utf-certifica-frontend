@@ -229,10 +229,10 @@ export default function LoginPage() {
 							<form onSubmit={handleSubmit}>
 								<FormControl required>
 									<FormLabel>
-										RA ou E-mail Institucional
+										RA
 									</FormLabel>
 									<Input
-										type="email"
+										type="text"
 										name="email"
 										value={user.email}
 										onChange={handleChangeInput}

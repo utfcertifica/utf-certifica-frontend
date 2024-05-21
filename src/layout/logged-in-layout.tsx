@@ -8,10 +8,6 @@ interface LoggedInLayoutProps {
 }
 
 function LoggedInLayout({ children }: LoggedInLayoutProps) {
-	const { loadUsers } = useContext(AuthContext);
-	useEffect(() => {
-		loadUsers();
-	}, []);
 	return (
 		<Box
 			sx={{

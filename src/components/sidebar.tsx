@@ -173,7 +173,7 @@ export default function Sidebar() {
 						size="lg"
 						src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2014/11/formacao_1600x1200-uma-mulher-virtuosa-e-feita-de-esforcos.jpg"
 					>
-						{user?.avatar ? null : getInitials(user?.name)}
+						{user?.urlImagemPerfil ? null : getInitials(user?.name)}
 					</Avatar>
 				</IconButton>
 				<Box

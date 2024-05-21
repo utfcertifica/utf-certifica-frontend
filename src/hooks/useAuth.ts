@@ -34,16 +34,17 @@ const useAuth = () => {
 		},
 		async (error) => {
 			const originalRequest = error.config;
-			if (error?.response?.status === 403 && !originalRequest._retry) {
-				originalRequest._retry = true;
+			//TODO - Backend ainda não implementado refresh-token
+			// if (error?.response?.status === 403 && !originalRequest._retry) {
+			// 	originalRequest._retry = true;
 
-				const { data } = await api.post("/auth/refresh_token");
-				if (data) {
-					localStorage.setItem("token", JSON.stringify(data.token));
-					api.defaults.headers.Authorization = `Bearer ${data.token}`;
-				}
-				return api(originalRequest);
-			}
+			// 	const { data } = await api.post("/auth/refresh_token");
+			// 	if (data) {
+			// 		localStorage.setItem("token", JSON.stringify(data.token));
+			// 		api.defaults.headers.Authorization = `Bearer ${data.token}`;
+			// 	}
+			// 	return api(originalRequest);
+			// }
 			if (error?.response?.status === 401) {
 				localStorage.removeItem("token");
 				api.defaults.headers.Authorization = "";
@@ -53,43 +54,50 @@ const useAuth = () => {
 		}
 	);
 
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		(async () => {
-			if (token) {
-				try {
-					const { data } = await api.post("/auth/refresh_token");
-					api.defaults.headers.Authorization = `Bearer ${data.token}`;
-					setIsAuth(true);
-					setUser(data.user);
-				} catch (err) {
-					toastError(err);
-				}
-			}
-			setLoading(false);
-		})();
-	}, []);
+	//TODO - Backend ainda não implementado refresh-token
+	// useEffect(() => {
+	// 	const token = localStorage.getItem("token");
+	// 	(async () => {
+	// 		if (token) {
+	// 			try {
+	// 				const { data } = await api.post("/auth/refresh_token");
+	// 				api.defaults.headers.Authorization = `Bearer ${data.token}`;
+	// 				setIsAuth(true);
+	// 				setUser(data.user);
+	// 			} catch (err) {
+	// 				toastError(err);
+	// 			}
+	// 		}
+	// 		setLoading(false);
+	// 	})();
+	// }, []);
 
 	const handleLogin = async (userData: any) => {
 		setLoading(true);
 
-		try {
-			const { data } = await api.post("/auth/login", {
-				email: userData.email.toLowerCase(),
-				password: userData.password,
-			});
-			const {
-				user: { id },
-			} = data;
+		console.log('oi');
 
-			localStorage.setItem("token", JSON.stringify(data.token));
-			localStorage.setItem("userId", id);
-			api.defaults.headers.Authorization = `Bearer ${data.token}`;
-			setUser(data.user);
+		try {
+
+			const authFormData = new FormData();
+			authFormData.append('username', userData.email.toLowerCase())
+			authFormData.append('password', userData.password)
+
+			const { data } = await api.post("/api/auth/signIn", authFormData);
+
+			console.log('autenticou será: ',data);
+
+			localStorage.setItem("token", JSON.stringify(data.accessToken));
+			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+
+			console.log('asdasd');
+			setUser(data);
 			setIsAuth(true);
 			toast.success(i18n.t("auth.toasts.success"));
 
-			navigate("/tickets");
+			console.log('asdasd', isAuth);
+
+			navigate("/");
 			setLoading(false);
 
 			//quebra linha
@@ -107,7 +115,6 @@ const useAuth = () => {
 			setIsAuth(false);
 			setUser(null);
 			localStorage.removeItem("token");
-			localStorage.removeItem("userId");
 			api.defaults.headers.Authorization = "";
 			setLoading(false);
 			navigate("/login");
@@ -117,33 +124,23 @@ const useAuth = () => {
 		}
 	};
 
-	const getCurrentUserInfo = async () => {
-		try {
-			const { data } = await api.get("/auth/me");
-			return data;
-		} catch (err) {
-			toastError(err);
-		}
-	};
+	// const getCurrentUserInfo = async () => {
+	// 	try {
+	// 		const { data } = await api.get("/auth/me");
+	// 		return data;
+	// 	} catch (err) {
+	// 		toastError(err);
+	// 	}
+	// };
 
-	const loadUsers = async () => {
-		try {
-			const { data } = await api.get<User[]>("/users/list");
 
-			setUsers(data);
-		} catch (err) {
-			toastError(err);
-		}
-	};
 
 	return {
 		isAuth,
 		user,
 		loading,
 		handleLogin,
-		handleLogout,
-		getCurrentUserInfo,
-		loadUsers,
+		handleLogout
 	};
 };
 

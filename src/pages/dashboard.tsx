@@ -107,7 +107,7 @@ function EventListItem(props: EventsMock) {
           src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2014/11/formacao_1600x1200-uma-mulher-virtuosa-e-feita-de-esforcos.jpg"
           sx={{ width: "3.5rem", height: "3.5rem" }}
         >
-          {user?.avatar ? null : getInitials(user?.name)}
+          {user?.urlImagemPerfil ? null : getInitials(user?.name)}
         </Avatar>
       </Grid>
       <Grid xs={5}>

@@ -22,11 +22,11 @@ const AppRoutes = () => {
 
 					<Route
 						element={
-							// <Protected>
-							<LoggedInLayout>
-								<Outlet />
-							</LoggedInLayout>
-							// </Protected>
+							<Protected>
+								<LoggedInLayout>
+									<Outlet />
+								</LoggedInLayout>
+							</Protected>
 						}
 					>
 						<Route path="/" element={<DashboardPage />} />

@@ -25,7 +25,7 @@ const DebugAtoms = () => {
 function App() {
 	return (
 		<Provider store={myStore}>
-			{/* <DebugAtoms /> */}
+			<DebugAtoms />
 			<CssVarsProvider theme={theme} disableTransitionOnChange>
 				<CssBaseline />
 			  <SpeedInsights />

@@ -7,7 +7,6 @@ interface AuthContextProps {
 	isAuth: boolean;
 	handleLogin: (userData: { email: string; password: string }) => void;
 	handleLogout: () => void;
-	loadUsers: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -16,12 +15,11 @@ const AuthContext = createContext<AuthContextProps>({
 	isAuth: false,
 	loading: false,
 	user: null,
-	loadUsers: () => {},
 });
 
 const AuthProvider = ({ children }: any) => {
-	const { loading, user, isAuth, handleLogin, handleLogout, loadUsers } = useAuth();
-	return <AuthContext.Provider value={{ loading, user, isAuth, handleLogin, handleLogout, loadUsers }}>{children}</AuthContext.Provider>;
+	const { loading, user, isAuth, handleLogin, handleLogout } = useAuth();
+	return <AuthContext.Provider value={{ loading, user, isAuth, handleLogin, handleLogout }}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContext, AuthProvider };
