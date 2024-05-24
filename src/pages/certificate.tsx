@@ -10,13 +10,10 @@ import {
 	useTheme,
 } from "@mui/joy";
 
-import { CrossIcon, ActionsIcon } from "@components/icons";
-import { DataLabelDisplay } from "@components/data-label-display";
 import PageWrapper from "@components/page-wrapper";
-import { PlaceDateDisplay } from "@components/place-date-display";
-import { AuthContext } from "@context/auth";
-import { getInitials } from "@utils/utils";
+import { useAuthContext } from "@context/auth";
 import logo from "@assets/utfpr.png";
+import { PageHeader } from "@components/page-header";
 
 // Tipo para os dados do certificado
 type Certificate = {
@@ -46,7 +43,10 @@ const certificatesMock: Certificate[] = [
 const CertificatePage = () => {
 	return (
 		<PageWrapper breadcrumbLabel="Visualização de Certificado">
-			<CertificatePageHeader />
+			<PageHeader
+				title="Visualização de Certificado"
+				subtitle="29 de março de 2024"
+			/>
 			<Box component="ul" sx={{ m: 0, p: 0 }}>
 				{certificatesMock.map((certificate) => (
 					<CertificateListItem
@@ -60,43 +60,8 @@ const CertificatePage = () => {
 };
 export default CertificatePage;
 
-function CertificatePageHeader() {
-	return (
-		<Box
-			component="header"
-			sx={{
-				display: "flex",
-				justifyContent: "space-between",
-				alignItems: "center",
-				pb: "2rem",
-				borderBottom: "1px solid rgba(136, 136, 136, 1)",
-			}}
-		>
-			<Box>
-				<Typography
-					fontSize={40}
-					fontWeight="600"
-					lineHeight={2}
-					textColor="rgba(38, 42, 65, 1)"
-				>
-					visualização de Certificado
-				</Typography>
-				<Typography
-					fontSize={16}
-					fontWeight="400"
-					lineHeight={1.5}
-					textColor="rgba(10, 10, 10, 0.5)"
-				>
-					29 de março de 2024
-				</Typography>
-			</Box>
-		</Box>
-	);
-}
-
 function CertificateListItem(props: Certificate) {
-	const { user } = useContext(AuthContext);
-	const theme = useTheme();
+
 	// Simulação de uma função de download, você precisará implementar isso
 	const handleDownload = () => {
 		console.log("Downloading...");

@@ -1,9 +1,12 @@
-import { Box, Grid, IconButton, Typography } from "@mui/joy";
+import { useNavigate } from "react-router-dom";
 
-import { CrossIcon, ActionsIcon, DownloadIcon } from "@components/icons";
+import { Box, Grid, IconButton } from "@mui/joy";
+
+import { ActionsIcon, DownloadIcon } from "@components/icons";
 import { DataLabelDisplay } from "@components/data-label-display";
 import PageWrapper from "@components/page-wrapper";
 import { PlaceDateDisplay } from "@components/place-date-display";
+import { PageHeader } from "@components/page-header";
 
 type CertificatesMock = {
 	certificateId: string;
@@ -34,9 +37,19 @@ const certificatesMock: CertificatesMock[] = [
 ];
 
 const CertificatesPage = () => {
+	const navigate = useNavigate();
+
+	function handleAddCertificate() {
+		navigate("/novo-certificado");
+	}
+
 	return (
 		<PageWrapper breadcrumbLabel="Certificados">
-			<CertificatePageHeader />
+			<PageHeader
+				title="Certificados"
+				subtitle="29 de março de 2024"
+				onAddButtonClick={handleAddCertificate}
+			/>
 			<Box component="ul" sx={{ m: 0, p: 0 }}>
 				{certificatesMock.map((certificate) => (
 					<CertificateListItem
@@ -49,51 +62,6 @@ const CertificatesPage = () => {
 	);
 };
 export default CertificatesPage;
-
-function CertificatePageHeader() {
-	return (
-		<Box
-			component="header"
-			sx={{
-				display: "flex",
-				justifyContent: "space-between",
-				alignItems: "center",
-				pb: "2rem",
-				borderBottom: "1px solid rgba(136, 136, 136, 1)",
-			}}
-		>
-			<Box>
-				<Typography
-					fontSize={40}
-					fontWeight="600"
-					lineHeight={2}
-					textColor="rgba(38, 42, 65, 1)"
-				>
-					Certificados
-				</Typography>
-				<Typography
-					fontSize={16}
-					fontWeight="400"
-					lineHeight={1.5}
-					textColor="rgba(10, 10, 10, 0.5)"
-				>
-					29 de março de 2024
-				</Typography>
-			</Box>
-			<IconButton
-				variant="solid"
-				sx={{
-					width: "2.75rem",
-					height: "2.75rem",
-					backgroundColor: "rgba(67, 57, 242, 1)",
-					borderRadius: "50%",
-				}}
-			>
-				<CrossIcon />
-			</IconButton>
-		</Box>
-	);
-}
 
 function CertificateListItem(props: CertificatesMock) {
 	return (

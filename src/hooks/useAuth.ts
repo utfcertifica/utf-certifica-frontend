@@ -12,127 +12,82 @@ const useAuth = () => {
 	const [isAuth, setIsAuth] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [user, setUser] = useState<User | null>(null);
-	const setUsers = useSetAtom(usersAtom);
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+			setIsAuth(true);
+		}
+		setLoading(false);
+	}, []);
 
 	api.interceptors.request.use(
 		(config) => {
 			const token = localStorage.getItem("token");
 			if (token) {
 				config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
-				setIsAuth(true);
 			}
 			return config;
 		},
-		(error) => {
-			Promise.reject(error);
-		}
+		(error) => Promise.reject(error)
 	);
 
 	api.interceptors.response.use(
-		(response) => {
-			return response;
-		},
+		(response) => response,
 		async (error) => {
 			const originalRequest = error.config;
-			if (error?.response?.status === 403 && !originalRequest._retry) {
-				originalRequest._retry = true;
 
-				const { data } = await api.post("/auth/refresh_token");
-				if (data) {
-					localStorage.setItem("token", JSON.stringify(data.token));
-					api.defaults.headers.Authorization = `Bearer ${data.token}`;
-				}
-				return api(originalRequest);
-			}
 			if (error?.response?.status === 401) {
 				localStorage.removeItem("token");
 				api.defaults.headers.Authorization = "";
 				setIsAuth(false);
+				setUser(null);
+				// console.log('olha aqui essa merda')
+				navigate("/login");
 			}
 			return Promise.reject(error);
 		}
 	);
 
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		(async () => {
-			if (token) {
-				try {
-					const { data } = await api.post("/auth/refresh_token");
-					api.defaults.headers.Authorization = `Bearer ${data.token}`;
-					setIsAuth(true);
-					setUser(data.user);
-				} catch (err) {
-					toastError(err);
-				}
-			}
-			setLoading(false);
-		})();
-	}, []);
-
 	const handleLogin = async (userData: any) => {
 		setLoading(true);
-
 		try {
-			const { data } = await api.post("/auth/login", {
-				email: userData.email.toLowerCase(),
-				password: userData.password,
-			});
-			const {
-				user: { id },
-			} = data;
+			const authFormData = new FormData();
+			authFormData.append("username", userData.email.toLowerCase());
+			authFormData.append("password", userData.password);
 
-			localStorage.setItem("token", JSON.stringify(data.token));
-			localStorage.setItem("userId", id);
-			api.defaults.headers.Authorization = `Bearer ${data.token}`;
-			setUser(data.user);
+			const { data } = await api.post("/api/auth/signIn", authFormData);
+
+			localStorage.setItem("token", JSON.stringify(data.accessToken));
+			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+
+			setUser(data);
 			setIsAuth(true);
 			toast.success(i18n.t("auth.toasts.success"));
 
-			navigate("/tickets");
-			setLoading(false);
-
-			//quebra linha
+			navigate("/");
 		} catch (err) {
 			toastError(err);
+		} finally {
 			setLoading(false);
 		}
 	};
 
 	const handleLogout = async () => {
 		setLoading(true);
-
 		try {
 			await api.delete("/auth/logout");
 			setIsAuth(false);
 			setUser(null);
+			console.log('olha aqui essa merda2')
 			localStorage.removeItem("token");
-			localStorage.removeItem("userId");
 			api.defaults.headers.Authorization = "";
-			setLoading(false);
 			navigate("/login");
 		} catch (err) {
 			toastError(err);
+		} finally {
 			setLoading(false);
-		}
-	};
-
-	const getCurrentUserInfo = async () => {
-		try {
-			const { data } = await api.get("/auth/me");
-			return data;
-		} catch (err) {
-			toastError(err);
-		}
-	};
-
-	const loadUsers = async () => {
-		try {
-			const { data } = await api.get<User[]>("/users/list");
-
-			setUsers(data);
-		} catch (err) {
-			toastError(err);
 		}
 	};
 
@@ -142,8 +97,6 @@ const useAuth = () => {
 		loading,
 		handleLogin,
 		handleLogout,
-		getCurrentUserInfo,
-		loadUsers,
 	};
 };
 

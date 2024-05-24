@@ -16,7 +16,7 @@ import Stack from "@mui/joy/Stack";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import { AspectRatio, Sheet } from "@mui/joy";
-import { AuthContext } from "@context/auth";
+import { useAuthContext } from "@context/auth";
 import logo from "@assets/logo.png";
 import vector from "@assets/vector.png";
 import { Google } from "@mui/icons-material";
@@ -67,10 +67,10 @@ interface User {
 export default function LoginPage() {
 	const [user, setUser] = React.useState<User>({ email: "", password: "" });
 
-	const { handleLogin } = React.useContext(AuthContext);
+	const { handleLogin } = useAuthContext();
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log("target", e.target.name);
+		// console.log("target", e.target.name);
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};
 
@@ -228,11 +228,9 @@ export default function LoginPage() {
 						<Stack gap={4} sx={{ mt: 2 }}>
 							<form onSubmit={handleSubmit}>
 								<FormControl required>
-									<FormLabel>
-										RA ou E-mail Institucional
-									</FormLabel>
+									<FormLabel>RA</FormLabel>
 									<Input
-										type="email"
+										type="text"
 										name="email"
 										value={user.email}
 										onChange={handleChangeInput}

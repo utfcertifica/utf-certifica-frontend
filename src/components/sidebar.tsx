@@ -40,7 +40,7 @@ import {
 	WhatsApp,
 	WorkspacePremium,
 } from "@mui/icons-material";
-import { AuthContext } from "@context/auth";
+import { useAuthContext } from "@context/auth";
 import { ColorSchemeToggle } from "@pages/login";
 
 function Toggler(props: {
@@ -74,7 +74,7 @@ function Toggler(props: {
 }
 
 export default function Sidebar() {
-	const { user, handleLogout } = React.useContext(AuthContext);
+	const { isAuth, user, handleLogout } = useAuthContext();
 
 	const [open, setOpen] = React.useState(false);
 
@@ -85,6 +85,8 @@ export default function Sidebar() {
 	const handleCloseModal = () => {
 		setOpen(false);
 	};
+
+	console.log('user', user);
 
 	return (
 		<Sheet
@@ -171,9 +173,9 @@ export default function Sidebar() {
 					<Avatar
 						variant="outlined"
 						size="lg"
-						src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2014/11/formacao_1600x1200-uma-mulher-virtuosa-e-feita-de-esforcos.jpg"
+						src={user?.urlImagemPerfil ? user?.urlImagemPerfil : getInitials(user?.name)}
 					>
-						{user?.avatar ? null : getInitials(user?.name)}
+
 					</Avatar>
 				</IconButton>
 				<Box
