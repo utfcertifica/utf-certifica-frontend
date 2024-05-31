@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
 
-import { AuthProvider } from "@context/auth";
+import {AuthProvider} from "@context/auth";
 
 import LoggedInLayout from "@layout/logged-in-layout";
 
@@ -10,7 +10,7 @@ import EventsPage from "@pages/events";
 import LoginPage from "@pages/login";
 import CertificatePage from "@pages/certificate";
 import NewCertificate from "@pages/NewCertificate/new-certificate";
-
+import CreateEventsPage from "@pages/createevents.tsx";
 import Protected from "./protected";
 
 const AppRoutes = () => {
