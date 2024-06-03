@@ -7,6 +7,8 @@ import { DataLabelDisplay } from "@components/data-label-display";
 import PageWrapper from "@components/page-wrapper";
 import { PlaceDateDisplay } from "@components/place-date-display";
 import { PageHeader } from "@components/page-header";
+import { useEffect, useState } from "react";
+import api from "@services/api";
 
 type CertificatesMock = {
 	certificateId: string;
@@ -17,31 +19,27 @@ type CertificatesMock = {
 	place: string;
 };
 
-const certificatesMock: CertificatesMock[] = [
-	{
-		certificateId: "1",
-		talkName: "Palestra sobre DevOps",
-		speakersName: "Samantha Aresta",
-		qntHours: "15",
-		date: "29/03/2024 às 22:00",
-		place: "Auditório da DIRPPG - G10",
-	},
-	{
-		certificateId: "2",
-		talkName: "Palestra sobre Saúde Mental",
-		speakersName: "Aresta Samantha",
-		qntHours: "4",
-		date: "22/04/2024 às 19:00",
-		place: "Mini Auditório",
-	},
-];
-
 const CertificatesPage = () => {
+	const [certificatesMock, setCertificatesMock] = useState([]);
 	const navigate = useNavigate();
 
 	function handleAddCertificate() {
 		navigate("/novo-certificado");
 	}
+
+	useEffect(() => {
+		const fetchCertificates = async () => {
+			try {
+				const resp = await api.post('/api/certificado/findAll');
+
+				setCertificatesMock(resp.data)
+			} catch(error) {
+				console.log('error', error)
+			}
+		};
+
+		fetchCertificates()
+	}, []);
 
 	return (
 		<PageWrapper breadcrumbLabel="Certificados">
