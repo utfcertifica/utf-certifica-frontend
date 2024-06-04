@@ -20,7 +20,7 @@ type CertificatesMock = {
 };
 
 const CertificatesPage = () => {
-	const [certificatesMock, setCertificatesMock] = useState([]);
+	const [certificatesMock, setCertificatesMock] = useState<CertificatesMock[]>([]);
 	const navigate = useNavigate();
 
 	function handleAddCertificate() {
