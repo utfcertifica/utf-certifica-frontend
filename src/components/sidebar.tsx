@@ -1,47 +1,28 @@
-import * as React from "react";
-import GlobalStyles from "@mui/joy/GlobalStyles";
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
-import Divider from "@mui/joy/Divider";
+import GlobalStyles from "@mui/joy/GlobalStyles";
 import IconButton from "@mui/joy/IconButton";
 import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import ListItemButton, { listItemButtonClasses } from "@mui/joy/ListItemButton";
 import ListItemContent from "@mui/joy/ListItemContent";
-import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Typography from "@mui/joy/Typography";
+import * as React from "react";
 
 // import ColorSchemeToggle from "@components/color-scheme-toggle";
-import { closeSidebar, getInitials } from "@utils/utils";
-import { AspectRatio, Button } from "@mui/joy";
-import logo from "../assets/logo.png";
-import { i18n } from "@translate/i18n";
+import { useAuthContext } from "@context/auth";
 import {
-	AccountTreeOutlined,
-	CodeRounded,
-	ContactPhone,
 	Event,
-	EventAvailable,
-	FlashOn,
-	Forum,
-	HelpOutline,
-	ListAlt,
-	LocalOffer,
-	People,
 	Person,
 	Settings,
-	SupportAgent,
-	SyncAlt,
-	ViewKanban,
-	WhatsApp,
-	WorkspacePremium,
+	WorkspacePremium
 } from "@mui/icons-material";
-import { useAuthContext } from "@context/auth";
 import { ColorSchemeToggle } from "@pages/login";
+import { closeSidebar, getInitials } from "@utils/utils";
+import logo from "../assets/logo.png";
 
 function Toggler(props: {
 	defaultExpanded?: boolean;
@@ -273,7 +254,7 @@ export default function Sidebar() {
 						</ListItemButton>
 					</ListItem>
 					<ListItem>
-						<ListItemButton role="menuitem" component="a" href="/">
+						<ListItemButton role="menuitem" component="a" href="/minha-conta">
 							<Person fontSize={"large"} />
 							<ListItemContent>
 								<Typography level="title-lg">

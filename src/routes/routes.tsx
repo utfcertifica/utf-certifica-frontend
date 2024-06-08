@@ -1,16 +1,17 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import { AuthProvider } from "@context/auth";
 
 import LoggedInLayout from "@layout/logged-in-layout";
 
+import NewCertificate from "@pages/NewCertificate/new-certificate";
+import CertificatePage from "@pages/certificate";
 import CertificatesPage from "@pages/certificates";
 import DashboardPage from "@pages/dashboard";
 import EventsPage from "@pages/events";
 import LoginPage from "@pages/login";
-import CertificatePage from "@pages/certificate";
-import NewCertificate from "@pages/NewCertificate/new-certificate";
 
+import MinhaContaPage from "@pages/minhaConta";
 import Protected from "./protected";
 
 const AppRoutes = () => {
@@ -42,6 +43,10 @@ const AppRoutes = () => {
 						<Route
 							path="/novo-certificado"
 							element={<NewCertificate />}
+						/>
+						<Route
+							path="/minha-conta"
+							element={<MinhaContaPage />}
 						/>
 					</Route>
 				</Routes>
