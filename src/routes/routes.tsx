@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+=======
+import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
+>>>>>>> 9143278c3e59b898625037012db7deddb08ba5e7
 
-import { AuthProvider } from "@context/auth";
+import {AuthProvider} from "@context/auth";
 
 import LoggedInLayout from "@layout/logged-in-layout";
 
@@ -10,8 +14,14 @@ import CertificatesPage from "@pages/certificates";
 import DashboardPage from "@pages/dashboard";
 import EventsPage from "@pages/events";
 import LoginPage from "@pages/login";
+<<<<<<< HEAD
 
 import MinhaContaPage from "@pages/minhaConta";
+=======
+import CertificatePage from "@pages/certificate";
+import NewCertificate from "@pages/NewCertificate/new-certificate";
+import CreateEventsPage from "@pages/createevents.tsx";
+>>>>>>> 9143278c3e59b898625037012db7deddb08ba5e7
 import Protected from "./protected";
 
 const AppRoutes = () => {
