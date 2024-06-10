@@ -14,12 +14,7 @@ import * as React from "react";
 
 // import ColorSchemeToggle from "@components/color-scheme-toggle";
 import { useAuthContext } from "@context/auth";
-import {
-	Event,
-	Person,
-	Settings,
-	WorkspacePremium
-} from "@mui/icons-material";
+import { Event, Person, Settings, WorkspacePremium } from "@mui/icons-material";
 import { ColorSchemeToggle } from "@pages/login";
 import { closeSidebar, getInitials } from "@utils/utils";
 import logo from "../assets/logo.png";
@@ -56,6 +51,13 @@ function Toggler(props: {
 
 export default function Sidebar() {
 	const { isAuth, user, handleLogout } = useAuthContext();
+	const [username, setUsername] = React.useState<string | null>(null);
+	const [email, setEmail] = React.useState<string | null>(null);
+
+	React.useEffect(() => {
+		setUsername(localStorage.getItem("username"));
+		setEmail(localStorage.getItem("email"));
+	}, []);
 
 	const [open, setOpen] = React.useState(false);
 
@@ -67,7 +69,7 @@ export default function Sidebar() {
 		setOpen(false);
 	};
 
-	console.log('user', user);
+	// console.log("user", user);
 
 	return (
 		<Sheet
@@ -154,10 +156,8 @@ export default function Sidebar() {
 					<Avatar
 						variant="outlined"
 						size="lg"
-						src={user?.urlImagemPerfil ? user?.urlImagemPerfil : getInitials(user?.name)}
-					>
-
-					</Avatar>
+						src={getInitials(username as string)}
+					/>
 				</IconButton>
 				<Box
 					sx={{
@@ -169,7 +169,7 @@ export default function Sidebar() {
 				>
 					<Box sx={{ flex: 1, flexDirection: "column" }}>
 						<Typography level="title-sm" fontSize={25}>
-							{user?.name ?? "Fulano de tal"}
+							{username ?? "Fulano de tal"}
 						</Typography>
 						<Typography
 							level="body-xs"
@@ -180,7 +180,7 @@ export default function Sidebar() {
 								overflow: "hidden",
 							}}
 						>
-							{user?.email ?? "fulano@alunos.utfpr.edu.br"}
+							{email ?? "fulano@alunos.utfpr.edu.br"}
 						</Typography>
 					</Box>
 					<IconButton
@@ -254,7 +254,11 @@ export default function Sidebar() {
 						</ListItemButton>
 					</ListItem>
 					<ListItem>
-						<ListItemButton role="menuitem" component="a" href="/minha-conta">
+						<ListItemButton
+							role="menuitem"
+							component="a"
+							href="/minha-conta"
+						>
 							<Person fontSize={"large"} />
 							<ListItemContent>
 								<Typography level="title-lg">

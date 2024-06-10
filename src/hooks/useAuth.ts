@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import api from "@services/api";
 import toastError from "@utils/toast-error";
 import { toast } from "react-toastify";
@@ -62,6 +62,8 @@ const useAuth = () => {
 			localStorage.setItem("token", JSON.stringify(data.accessToken));
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
+			localStorage.setItem("username", JSON.stringify(data.name))
+			localStorage.setItem("email", JSON.stringify(data.email))
 			setUser(data);
 			setIsAuth(true);
 			toast.success(i18n.t("auth.toasts.success"));
