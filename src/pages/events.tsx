@@ -11,6 +11,7 @@ import { PlaceDateDisplay } from "@components/place-date-display";
 import { useAuthContext } from "@context/auth";
 
 import { getInitials } from "@utils/utils";
+import { useNavigate } from "react-router-dom";
 
 type EventsMock = {
 	eventId: string;
@@ -44,12 +45,18 @@ const eventsMock: EventsMock[] = [
 ];
 
 const EventsPage = () => {
+	const navigate = useNavigate();
+
+	const handleNewEvent = () => {
+		navigate("/novo-evento");
+	};
+
 	return (
 		<PageWrapper breadcrumbLabel="Eventos">
 			<PageHeader
 				title="Eventos"
 				subtitle="29 de março de 2024"
-				onAddButtonClick={() => alert("TODO: Adicionar evento")}
+				onAddButtonClick={() => handleNewEvent()}
 			/>
 			<Box component="ul" sx={{ m: 0, p: 0 }}>
 				{eventsMock.map((event) => (

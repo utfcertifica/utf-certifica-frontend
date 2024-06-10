@@ -5,7 +5,7 @@ import { Add } from "@mui/icons-material";
 
 type PageHeaderProps = BoxProps & {
 	title: string;
-	subtitle: string;
+	subtitle?: string;
 	onAddButtonClick?: () => void;
 };
 
