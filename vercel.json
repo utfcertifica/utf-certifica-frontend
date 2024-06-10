@@ -21,6 +21,14 @@
 			"dest": "/"
 		},
 		{
+			"src": "/novo-evento",
+			"dest": "/"
+		},
+		{
+			"src": "/minha-conta",
+			"dest": "/"
+		},
+		{
 			"src": "/",
 			"dest": "/"
 		}
