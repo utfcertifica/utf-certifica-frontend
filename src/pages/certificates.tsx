@@ -30,7 +30,7 @@ const CertificatesPage = () => {
 	useEffect(() => {
 		const fetchCertificates = async () => {
 			try {
-				const resp = await api.post('/api/certificado/findAll');
+				const resp = await api.get('/api/certificado/findAll');
 
 				setCertificatesMock(resp.data)
 			} catch(error) {

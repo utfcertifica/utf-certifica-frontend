@@ -51,25 +51,14 @@ function Toggler(props: {
 
 export default function Sidebar() {
 	const { isAuth, user, handleLogout } = useAuthContext();
-	const [username, setUsername] = React.useState<string | null>(null);
-	const [email, setEmail] = React.useState<string | null>(null);
+	const [username, setUsername] = React.useState<string | null>();
+	const [email, setEmail] = React.useState<string | null>();
 
 	React.useEffect(() => {
 		setUsername(localStorage.getItem("username"));
 		setEmail(localStorage.getItem("email"));
 	}, []);
 
-	const [open, setOpen] = React.useState(false);
-
-	const handleEditProfile = () => {
-		setOpen(true);
-	};
-
-	const handleCloseModal = () => {
-		setOpen(false);
-	};
-
-	// console.log("user", user);
 
 	return (
 		<Sheet
@@ -151,7 +140,6 @@ export default function Sidebar() {
 						width: "var(--Avatar-size)",
 						height: "var(--Avatar-size)",
 					}}
-					onClick={handleEditProfile}
 				>
 					<Avatar
 						variant="outlined"

@@ -62,12 +62,15 @@ const useAuth = () => {
 			localStorage.setItem("token", JSON.stringify(data.accessToken));
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
-			localStorage.setItem("username", JSON.stringify(data.name))
-			localStorage.setItem("email", JSON.stringify(data.email))
+			localStorage.setItem("username", data.name)
+			localStorage.setItem("email", data.email)
+
+			console.log(data.accessToken, localStorage.getItem("token"), api.defaults.headers.Authorization)
+
 			setUser(data);
 			setIsAuth(true);
 			toast.success(i18n.t("auth.toasts.success"));
-
+			// eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjUyMzc3OSIsImlhdCI6MTcxODA1NzI0NCwiZXhwIjoxNzE4MDkzMjQ0fQ.Ey-wyjLrCN0LkoBxpt__nlU5DrNiTfvTvg71dLXvUqs
 			navigate("/");
 		} catch (err) {
 			toastError(err);
