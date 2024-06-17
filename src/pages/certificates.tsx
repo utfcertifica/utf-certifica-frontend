@@ -85,7 +85,7 @@ function CertificateListItem(
 	props: Certificate & { onDelete: (id: string) => void }
 ) {
 	const navigate = useNavigate();
-	const fileCertificado = `http://localhost:8080${props.fileCertificado}`;
+	const fileCertificado = `https://utf-certifica.vercel.app${props.fileCertificado}`;
 
 	const handleEditClick = () => {
 		navigate(`/certificado/editar/${props.id}`);

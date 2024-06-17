@@ -76,14 +76,13 @@ export default function LoginPage() {
 	const { handleLogin } = useAuthContext();
 
 	const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// console.log("target", e.target.name);
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		setLoading(true);
+		setLoading(true)
 
 		handleLogin(user);
 	};

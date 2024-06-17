@@ -5,7 +5,7 @@ interface AuthContextProps {
   loading: boolean;
   user: User | null;
   isAuth: boolean;
-  handleLogin: (userData: { email: string; password: string }) => void;
+  handleLogin:  (userData: { email: string; password: string }) => void;
   handleLogout: () => void;
 }
 
