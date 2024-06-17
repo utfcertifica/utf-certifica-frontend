@@ -19,7 +19,7 @@ import {
 import { Add, Check } from "@mui/icons-material";
 import PageWrapper from "@components/page-wrapper.tsx";
 import { DataLabelDisplay } from "@components/data-label-display.tsx";
-import { ActionsIcon, DownloadIcon } from "@components/icons";
+import { DownloadIcon } from "@components/icons";
 import { PageHeader } from "@components/page-header";
 //import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 
@@ -127,6 +127,15 @@ const CreateEventsPage = () => {
 						/>
 					</FormControl>
 
+					<FormControl>
+						<FormLabel>Descrição</FormLabel>
+						<Textarea
+							placeholder="Descrição do evento"
+							minRows={6}
+							variant="outlined"
+						/>
+					</FormControl>
+
 					<Stack
 						direction="row"
 						justifyContent="flex-start"
@@ -157,27 +166,6 @@ const CreateEventsPage = () => {
 								variant="outlined"
 							/>
 						</FormControl>
-						{/*<DateTimePicker
-						label="Data do Evento"
-						//value={eventDate}
-						//onChange={handleEventDateChange}
-						//renderInput={(props) => <TextField {...props} />}
-					/>
-
-					<DateTimePicker
-						label="Horário de Início"
-						//value={startTime}
-						//onChange={handleStartTimeChange}
-						//renderInput={(props) => <TextField {...props} />}
-					/>
-
-					<DateTimePicker
-						label="Horário de Encerramento"
-						//value={endTime}
-						//onChange={handleEndTimeChange}
-						//renderInput={(props) => <Input {...props} />}
-					/>*/}
-
 						<IconButton
 							variant="solid"
 							sx={{
@@ -190,22 +178,6 @@ const CreateEventsPage = () => {
 							<Add />
 						</IconButton>
 					</Stack>
-
-					{/*<LocalizationProvider dateAdapter={AdapterDateFns}> {
-
-			} </LocalizationProvider>*/}
-
-					<FormControl>
-						<FormLabel>Descrição</FormLabel>
-						<Textarea
-							placeholder="Descrição do evento"
-							minRows={6}
-							size="sm"
-							variant="outlined"
-							//value={eventDescription}
-							//onChange={handleEventDescriptionChange}
-						/>
-					</FormControl>
 				</Box>
 			),
 		},

@@ -15,7 +15,7 @@ import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
-import { AspectRatio, Sheet } from "@mui/joy";
+import { AspectRatio, CircularProgress, Sheet } from "@mui/joy";
 import { useAuthContext } from "@context/auth";
 import logo from "@assets/logo.png";
 import vector from "@assets/vector.png";
@@ -71,6 +71,7 @@ interface User {
 
 export default function LoginPage() {
 	const [user, setUser] = React.useState<User>({ email: "", password: "" });
+	const [loading, setLoading] = React.useState(false);
 
 	const { handleLogin } = useAuthContext();
 
@@ -81,7 +82,12 @@ export default function LoginPage() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		handleLogin(user);
+		setLoading(true);
+		try {
+			handleLogin(user);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -270,8 +276,20 @@ export default function LoginPage() {
 											Esqueceu sua senha?
 										</Link>
 									</Box>
-									<Button size="lg" type="submit">
-										Entrar
+									<Button
+										type="submit"
+										disabled={loading}
+										startDecorator={
+											loading ? (
+												<CircularProgress
+													size="sm"
+													variant="solid"
+													color="neutral"
+												/>
+											) : null
+										}
+									>
+										{loading ? "Entrando..." : "Entrar"}
 									</Button>
 								</Stack>
 							</form>

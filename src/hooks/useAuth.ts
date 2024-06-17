@@ -4,8 +4,6 @@ import api from "@services/api";
 import toastError from "@utils/toast-error";
 import { toast } from "react-toastify";
 import { i18n } from "@translate/i18n";
-import { useSetAtom } from "jotai";
-import usersAtom from "@atoms/user";
 
 const useAuth = () => {
 	const navigate = useNavigate();
@@ -51,6 +49,7 @@ const useAuth = () => {
 
 	const handleLogin = async (userData: any) => {
 		setLoading(true);
+
 		try {
 			const authFormData = new FormData();
 			authFormData.append("username", userData.email.toLowerCase());
