@@ -117,7 +117,7 @@ function CertificateListItem(
 				},
 			}}
 		>
-			<Grid xs={12} sm={1}>
+			<Grid xs={12} sm={2}>
 				<Card
 					component="li"
 					sx={{ width: "5.375rem", height: "4.375rem", flexGrow: 1 }}
@@ -149,7 +149,7 @@ function CertificateListItem(
 			</Grid>
 			<Grid
 				xs={12}
-				sm={2}
+				sm={1}
 				sx={{
 					display: "flex",
 					justifyContent: "flex-end",
