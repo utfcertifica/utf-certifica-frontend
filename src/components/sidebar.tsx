@@ -255,7 +255,7 @@ export default function Sidebar() {
 							</ListItemContent>
 						</ListItemButton>
 					</ListItem>
-					<ListItem>
+					{/* <ListItem>
 						<ListItemButton role="menuitem" component="a" href="/">
 							<Settings fontSize={"large"} />
 							<ListItemContent>
@@ -264,7 +264,7 @@ export default function Sidebar() {
 								</Typography>
 							</ListItemContent>
 						</ListItemButton>
-					</ListItem>
+					</ListItem> */}
 				</List>
 			</Box>
 		</Sheet>

@@ -43,7 +43,6 @@ const useAuth = () => {
 				api.defaults.headers.Authorization = "";
 				setIsAuth(false);
 				setUser(null);
-				// console.log('olha aqui essa merda')
 				navigate("/login");
 			}
 			return Promise.reject(error);
@@ -62,10 +61,14 @@ const useAuth = () => {
 			localStorage.setItem("token", JSON.stringify(data.accessToken));
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
-			localStorage.setItem("username", data.name)
-			localStorage.setItem("email", data.email)
+			localStorage.setItem("username", data.name);
+			localStorage.setItem("email", data.email);
 
-			console.log(data.accessToken, localStorage.getItem("token"), api.defaults.headers.Authorization)
+			console.log(
+				data.accessToken,
+				localStorage.getItem("token"),
+				api.defaults.headers.Authorization
+			);
 
 			setUser(data);
 			setIsAuth(true);
@@ -85,7 +88,7 @@ const useAuth = () => {
 			await api.delete("/auth/logout");
 			setIsAuth(false);
 			setUser(null);
-			console.log('olha aqui essa merda2')
+			console.log("olha aqui essa merda2");
 			localStorage.removeItem("token");
 			api.defaults.headers.Authorization = "";
 			navigate("/login");

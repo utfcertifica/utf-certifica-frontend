@@ -37,6 +37,14 @@ const AppRoutes = () => {
 							element={<CertificatesPage />}
 						/>
 						<Route
+							path="/certificado/editar/:id"
+							element={<NewCertificate />}
+						/>
+						<Route
+							path="/certificado/visualizar/:id"
+							element={<CertificatePage />}
+						/>
+						<Route
 							path="/certificate"
 							element={<CertificatePage />}
 						/>
