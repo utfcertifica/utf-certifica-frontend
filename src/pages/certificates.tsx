@@ -85,7 +85,9 @@ function CertificateListItem(
 	props: Certificate & { onDelete: (id: string) => void }
 ) {
 	const navigate = useNavigate();
-	const fileCertificado = `https://utf-certifica-backend.onrender.com${props.fileCertificado}`;
+	const fileCertificado = `${import.meta.env.VITE_API_URL}${
+		props.fileCertificado
+	}`;
 
 	const handleEditClick = () => {
 		navigate(`/certificado/editar/${props.id}`);
