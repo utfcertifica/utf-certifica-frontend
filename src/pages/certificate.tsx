@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Box, Button, Grid, Typography } from "@mui/joy";
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/joy";
 import PageWrapper from "@components/page-wrapper";
 import { PageHeader } from "@components/page-header";
 import type { Certificate } from "@models/certificate";
@@ -29,7 +29,18 @@ const CertificatePage = () => {
 	};
 
 	if (!certificate) {
-		return <div>Loading...</div>;
+		return (
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					height: "100%",
+				}}
+			>
+				<CircularProgress size="sm" variant="solid" color="neutral" />
+			</Box>
+		);
 	}
 
 	const fileCertificado = `${import.meta.env.VITE_API_URL}${
