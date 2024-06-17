@@ -82,12 +82,10 @@ export default function LoginPage() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
 		setLoading(true);
-		try {
-			handleLogin(user);
-		} finally {
-			setLoading(false);
-		}
+
+		handleLogin(user);
 	};
 
 	return (
