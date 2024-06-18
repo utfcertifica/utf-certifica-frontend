@@ -61,6 +61,7 @@ const useAuth = () => {
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
 			localStorage.setItem("username", data.name);
+			localStorage.setItem("imagem", data.urlImagemPerfil);
 			localStorage.setItem("email", data.email);
 
 			console.log(

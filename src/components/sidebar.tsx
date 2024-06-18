@@ -52,13 +52,17 @@ function Toggler(props: {
 export default function Sidebar() {
 	const { isAuth, user, handleLogout } = useAuthContext();
 	const [username, setUsername] = React.useState<string | null>();
+	const [imagem, setImagem] = React.useState<string | null>();
 	const [email, setEmail] = React.useState<string | null>();
 
 	React.useEffect(() => {
 		setUsername(localStorage.getItem("username"));
+		setImagem(localStorage.getItem("imagem"));
 		setEmail(localStorage.getItem("email"));
 	}, []);
 
+	const base64Image = `data:image/png;base64,${imagem}`; // Sua imagem base64 aqui
+	const imageUrl = `${base64Image}`;
 
 	return (
 		<Sheet
@@ -144,7 +148,7 @@ export default function Sidebar() {
 					<Avatar
 						variant="outlined"
 						size="lg"
-						src={getInitials(username as string)}
+						src={imageUrl}
 					/>
 				</IconButton>
 				<Box
