@@ -42,5 +42,24 @@ export const theme = extendTheme({
 				},
 			},
 		},
+		JoyTextarea: {
+			styleOverrides: {
+				root: {
+					padding: "1.5rem",
+					borderRadius: "1rem",
+					boxShadow: "none",
+					border: `1px solid ${colors["gray-300"]}`,
+					backgroundColor: colors["gray-100"],
+					color: colors["gray-900"],
+				},
+				textarea: {
+					"&::placeholder": {
+						opacity: 1,
+						fontSize: "1rem",
+						color: colors["gray-900"],
+					},
+				},
+			},
+		},
 	},
 });

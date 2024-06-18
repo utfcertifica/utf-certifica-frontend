@@ -11,8 +11,8 @@ export const NewCertficateForm = () => {
 	const [dataEvento, setDataEvento] = useState("");
 	const [nrCargaHoraria, setNrCargaHoraria] = useState("");
 	const [file, setFile] = useState(null);
-	const [filePreview, setFilePreview] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [filePreview, setFilePreview] = useState("");
 
 	const handleFileChange = (event) => {
 		const file = event.target.files[0];
