@@ -50,3 +50,12 @@ export const getInitials = (name = '') => {
 	const ret = ((initials.shift()?.[1] || '') + (initials.pop()?.[1] || '')).toUpperCase();
 	return ret;
 };
+
+export const formatDateTemp = (date?: number[]) => {
+	if (!date) return;
+
+	const [year, month, day] = date;
+
+	const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+	return formattedDate;
+};
