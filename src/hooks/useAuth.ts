@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { json, useNavigate } from "react-router-dom";
-import api from "@services/api";
-import toastError from "@utils/toast-error";
-import { toast } from "react-toastify";
-import { i18n } from "@translate/i18n";
+import { User } from '@models/user';
+import api from '@services/api';
+import { i18n } from '@translate/i18n';
+import toastError from '@utils/toast-error';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const useAuth = () => {
 	const navigate = useNavigate();
@@ -12,7 +13,7 @@ const useAuth = () => {
 	const [user, setUser] = useState<User | null>(null);
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem('token');
 		if (token) {
 			api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
 			setIsAuth(true);
@@ -22,13 +23,13 @@ const useAuth = () => {
 
 	api.interceptors.request.use(
 		(config) => {
-			const token = localStorage.getItem("token");
+			const token = localStorage.getItem('token');
 			if (token) {
 				config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
 			}
 			return config;
 		},
-		(error) => Promise.reject(error)
+		(error) => Promise.reject(error),
 	);
 
 	api.interceptors.response.use(
@@ -37,14 +38,14 @@ const useAuth = () => {
 			const originalRequest = error.config;
 
 			if (error?.response?.status === 401) {
-				localStorage.removeItem("token");
-				api.defaults.headers.Authorization = "";
+				localStorage.removeItem('token');
+				api.defaults.headers.Authorization = '';
 				setIsAuth(false);
 				setUser(null);
-				navigate("/login");
+				navigate('/login');
 			}
 			return Promise.reject(error);
-		}
+		},
 	);
 
 	const handleLogin = async (userData: any) => {
@@ -52,29 +53,22 @@ const useAuth = () => {
 
 		try {
 			const authFormData = new FormData();
-			authFormData.append("username", userData.email.toLowerCase());
-			authFormData.append("password", userData.password);
+			authFormData.append('username', userData.email.toLowerCase());
+			authFormData.append('password', userData.password);
 
-			const { data } = await api.post("/api/auth/signIn", authFormData);
+			const { data } = await api.post('/api/auth/signIn', authFormData);
 
-			localStorage.setItem("token", JSON.stringify(data.accessToken));
+			localStorage.setItem('token', JSON.stringify(data.accessToken));
 			api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 
-			localStorage.setItem("username", data.name);
-			localStorage.setItem("imagem", data.urlImagemPerfil);
-			localStorage.setItem("email", data.email);
-
-			console.log(
-				data.accessToken,
-				localStorage.getItem("token"),
-				api.defaults.headers.Authorization
-			);
+			localStorage.setItem('username', data.name);
+			localStorage.setItem('imagem', data.urlImagemPerfil);
+			localStorage.setItem('email', data.email);
 
 			setUser(data);
 			setIsAuth(true);
-			toast.success(i18n.t("auth.toasts.success"));
-			// eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMjUyMzc3OSIsImlhdCI6MTcxODA1NzI0NCwiZXhwIjoxNzE4MDkzMjQ0fQ.Ey-wyjLrCN0LkoBxpt__nlU5DrNiTfvTvg71dLXvUqs
-			navigate("/");
+			toast.success(i18n.t('auth.toasts.success'));
+			navigate('/');
 		} catch (err) {
 			toastError(err);
 		} finally {
@@ -85,13 +79,12 @@ const useAuth = () => {
 	const handleLogout = async () => {
 		setLoading(true);
 		try {
-			await api.delete("/auth/logout");
+			await api.delete('/auth/logout');
 			setIsAuth(false);
 			setUser(null);
-			console.log("olha aqui essa merda2");
-			localStorage.removeItem("token");
-			api.defaults.headers.Authorization = "";
-			navigate("/login");
+			localStorage.removeItem('token');
+			api.defaults.headers.Authorization = '';
+			navigate('/login');
 		} catch (err) {
 			toastError(err);
 		} finally {
