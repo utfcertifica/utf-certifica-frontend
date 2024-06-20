@@ -14,7 +14,7 @@ export const PlaceDateDisplay = ({ date, place }: PlaceDateDisplay) => {
 				fontWeight="500"
 				textColor="rgba(67, 57, 242, 1)"
 			>
-				Data
+				Data e Local
 			</Typography>
 			<Typography
 				component="h4"

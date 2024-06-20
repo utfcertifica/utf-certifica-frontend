@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/joy";
 
 type DataLabelDisplay = {
-	data: string;
-	label: string;
+	data: string | undefined;
+	label: string | undefined;
 };
 
 export const DataLabelDisplay = ({ data, label }: DataLabelDisplay) => {

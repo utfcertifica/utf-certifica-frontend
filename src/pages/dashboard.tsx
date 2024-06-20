@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { DataLabelDisplay } from "@components/data-label-display";
 import PageWrapper from "@components/page-wrapper";
 import { useAuthContext } from "@context/auth";
@@ -7,57 +8,61 @@ import {
 	AccordionDetails,
 	AccordionGroup,
 	AccordionSummary,
-	Avatar,
 	Box,
 	Button,
+	Card,
+	CardCover,
 	Grid,
 	IconButton,
 	Typography,
 	accordionDetailsClasses,
 	accordionSummaryClasses,
 } from "@mui/joy";
-import { getInitials } from "@utils/utils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image2 from "../assets/flor.png";
 import Image1 from "../assets/mala.png";
-
-type EventsMock = {
-	eventId: string;
-	talkName: string;
-	speakersName: string;
-	registered: string;
-	attended: string;
-	date: string;
-	place: string;
-};
-
-const eventsMock: EventsMock[] = [
-	{
-		eventId: "1",
-		talkName: "Palestra sobre DevOps",
-		speakersName: "Samantha Aresta",
-		registered: "50",
-		attended: "35",
-		date: "29/03/2024 às 22:00",
-		place: "Auditório da DIRPPG - G10",
-	},
-	{
-		eventId: "2",
-		talkName: "Palestra sobre Saúde Mental",
-		speakersName: "Aresta Samantha",
-		registered: "75",
-		attended: "40",
-		date: "22/04/2024 às 19:00",
-		place: "Mini Auditório",
-	},
-];
+import api from "@services/api";
+import type { Event } from "@models/event";
+import type { Certificate } from "@models/certificate";
 
 const DashboardPage = () => {
 	const currentDate = new Date();
 	const formattedDate = format(currentDate, "dd 'de' MMMM 'de' yyyy", {
 		locale: ptBR,
 	});
+
+	const [events, setEvents] = useState<Event[]>([]);
+
+	useEffect(() => {
+		const fetchEvents = async () => {
+			try {
+				const response = await api.get("/api/evento/findAll");
+				console.log(response.data);
+				setEvents(response.data);
+			} catch (error) {
+				console.error("Error fetching events:", error);
+			}
+		};
+
+		fetchEvents();
+	}, []);
+
+	const [certificates, setCertificates] = useState<Certificate[]>([]);
+
+	useEffect(() => {
+		const fetchCertificates = async () => {
+			try {
+				const response = await api.get("/api/certificado/findAll");
+				console.log(response.data);
+				setCertificates(response.data);
+			} catch (error) {
+				console.error("Error fetching certificates:", error);
+			}
+		};
+
+		fetchCertificates();
+	}, []);
 
 	return (
 		<PageWrapper breadcrumbLabel="Visão inicial">
@@ -81,7 +86,14 @@ const DashboardPage = () => {
 							{formattedDate}
 						</Typography>
 					</Box>
-					<Box sx={{ pb: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+					<Box
+						sx={{
+							pb: "1rem",
+							display: "flex",
+							justifyContent: "space-between",
+							alignItems: "center",
+						}}
+					>
 						<Typography
 							fontSize={24}
 							fontWeight="600"
@@ -94,8 +106,15 @@ const DashboardPage = () => {
 							<MoreHorizIcon />
 						</IconButton>
 					</Box>
-					<EventList />
-					<Box sx={{ pb: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+					<EventList events={events} />
+					<Box
+						sx={{
+							pb: "2rem",
+							display: "flex",
+							justifyContent: "space-between",
+							alignItems: "center",
+						}}
+					>
 						<Typography
 							fontSize={24}
 							fontWeight="600"
@@ -108,6 +127,7 @@ const DashboardPage = () => {
 							<MoreHorizIcon />
 						</IconButton>
 					</Box>
+					<CertificateList certificates={certificates} />
 				</Grid>
 				<Grid xs={4}>
 					<Box
@@ -127,20 +147,90 @@ const DashboardPage = () => {
 };
 export default DashboardPage;
 
-function EventList() {
+type EventListProps = {
+	events: Event[];
+};
+
+function EventList({ events }: EventListProps) {
 	return (
 		<Box sx={{ width: "90%" }}>
 			<Box component="ul" sx={{ m: 0, p: 0 }}>
-				{eventsMock.map((event) => (
-					<EventListItem key={event.eventId} {...event} />
+				{events.map((event) => (
+					<EventListItem key={event.id} {...event} />
 				))}
 			</Box>
 		</Box>
 	);
 }
 
-function EventListItem(props: EventsMock) {
+function CertificateList({ certificates }: { certificates: Certificate[] }) {
+	return (
+		<Box sx={{ width: "90%" }}>
+			<Box component="ul" sx={{ m: 0, p: 0 }}>
+				{certificates.map((certificate) => (
+					<CertificateListItem
+						key={certificate.id}
+						{...certificate}
+					/>
+				))}
+			</Box>
+		</Box>
+	);
+}
+
+function CertificateListItem(props: Certificate) {
+
+	const file = `${import.meta.env.VITE_API_URL}${props.fileCertificado}`;
+
+	return (
+		<Grid
+			component="li"
+			container
+			spacing={1}
+			sx={{
+				p: "0.5rem 0",
+				borderBottom: "0.5px solid rgba(0, 0, 0, 0.3)",
+			}}
+		>
+			{/* Adjust as per your UI design */}
+			<Grid xs={2}>
+				<Card
+					component="li"
+					sx={{ width: "5.375rem", height: "4.375rem", flexGrow: 1 }}
+				>
+					<CardCover>
+						<img
+							src={file}
+							loading="lazy"
+							alt=""
+						/>
+					</CardCover>
+				</Card>
+			</Grid>
+			<Grid xs={5}>
+				<DataLabelDisplay
+					data={props.nomeEvento}
+					label={props.ministrante}
+				/>
+			</Grid>
+			<Grid xs={5}>
+				<Typography
+					fontSize={17}
+					fontWeight="400"
+					lineHeight={2.5}
+					textColor="black"
+				>
+					{props.dataEvento}
+				</Typography>
+			</Grid>
+		</Grid>
+	);
+}
+
+function EventListItem(props: Event) {
 	const { user } = useAuthContext();
+
+	const file = `${import.meta.env.VITE_API_URL}/uploads/${props.banner}`;
 
 	return (
 		<Grid
@@ -153,20 +243,22 @@ function EventListItem(props: EventsMock) {
 			}}
 		>
 			<Grid xs={2}>
-				<Avatar
-					src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2014/11/formacao_1600x1200-uma-mulher-virtuosa-e-feita-de-esforcos.jpg"
-					sx={{ width: "3.5rem", height: "3.5rem" }}
+				<Card
+					component="li"
+					sx={{
+						width: "5.375rem",
+						height: "4.375rem",
+						flexGrow: 1,
+						border: "none",
+					}}
 				>
-					{user?.urlImagemPerfil
-						? user?.urlImagemPerfil
-						: getInitials(user?.name)}
-				</Avatar>
+					<CardCover>
+						<img src={file} srcSet={file} loading="lazy" alt="" />
+					</CardCover>
+				</Card>
 			</Grid>
 			<Grid xs={5}>
-				<DataLabelDisplay
-					data={props.talkName}
-					label={props.speakersName}
-				/>
+				<DataLabelDisplay data={props.name} label={props.abstract} />
 			</Grid>
 			<Grid xs={5}>
 				<Typography
@@ -175,7 +267,7 @@ function EventListItem(props: EventsMock) {
 					lineHeight={2.5}
 					textColor="black"
 				>
-					{props.date}
+					{props.dateStart}
 				</Typography>
 			</Grid>
 		</Grid>
@@ -213,7 +305,7 @@ function FAQsAndSupport() {
 							color: "black",
 							paddingBlock: "0.75rem",
 							zIndex: 1,
-							textAlign: "justify"
+							textAlign: "justify",
 						},
 					},
 				}}
@@ -261,12 +353,12 @@ function FAQsAndSupport() {
 				>
 					<img
 						src={Image1}
-						alt="Image 1"
+						alt="asdasd"
 						style={{ marginRight: "25px" }}
 					/>
 					<img
 						src={Image2}
-						alt="Image 2"
+						alt="ateassd"
 						style={{ marginLeft: "15px" }}
 					/>
 				</Box>

@@ -1,6 +1,16 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 
-import { Avatar, Box, Grid, IconButton, Typography } from "@mui/joy";
+import {
+	Box,
+	Card,
+	CardCover,
+	Dropdown,
+	Grid,
+	IconButton,
+	Menu,
+	MenuButton,
+	MenuItem,
+} from "@mui/joy";
 
 import { ActionsIcon } from "@components/icons";
 import { DataLabelDisplay } from "@components/data-label-display";
@@ -8,41 +18,10 @@ import { PageHeader } from "@components/page-header";
 import PageWrapper from "@components/page-wrapper";
 import { PlaceDateDisplay } from "@components/place-date-display";
 
-import { useAuthContext } from "@context/auth";
-
-import { getInitials } from "@utils/utils";
 import { useNavigate } from "react-router-dom";
-
-type EventsMock = {
-	eventId: string;
-	talkName: string;
-	speakersName: string;
-	registered: string;
-	attended: string;
-	date: string;
-	place: string;
-};
-
-const eventsMock: EventsMock[] = [
-	{
-		eventId: "1",
-		talkName: "Palestra sobre DevOps",
-		speakersName: "Samantha Aresta",
-		registered: "50",
-		attended: "35",
-		date: "29/03/2024 às 22:00",
-		place: "Auditório da DIRPPG - G10",
-	},
-	{
-		eventId: "2",
-		talkName: "Palestra sobre Saúde Mental",
-		speakersName: "Aresta Samantha",
-		registered: "75",
-		attended: "40",
-		date: "22/04/2024 às 19:00",
-		place: "Mini Auditório",
-	},
-];
+import type { Event } from "@models/event";
+import api from "@services/api";
+import { MoreVert } from "@mui/icons-material";
 
 const EventsPage = () => {
 	const navigate = useNavigate();
@@ -50,6 +29,22 @@ const EventsPage = () => {
 	const handleNewEvent = () => {
 		navigate("/novo-evento");
 	};
+
+	const [events, setEvents] = useState<Event[]>([]);
+
+	useEffect(() => {
+		const fetchEvents = async () => {
+			try {
+				const response = await api.get("/api/evento/findAll");
+				console.log(response.data);
+				setEvents(response.data);
+			} catch (error) {
+				console.error("Error fetching events:", error);
+			}
+		};
+
+		fetchEvents();
+	}, []);
 
 	return (
 		<PageWrapper breadcrumbLabel="Eventos">
@@ -59,8 +54,8 @@ const EventsPage = () => {
 				onAddButtonClick={() => handleNewEvent()}
 			/>
 			<Box component="ul" sx={{ m: 0, p: 0 }}>
-				{eventsMock.map((event) => (
-					<EventListItem key={event.eventId} {...event} />
+				{events.map((event, index) => (
+					<EventListItem key={`${event.id}-${index}`} {...event} />
 				))}
 			</Box>
 		</PageWrapper>
@@ -68,8 +63,12 @@ const EventsPage = () => {
 };
 export default EventsPage;
 
-function EventListItem(props: EventsMock) {
-	const { user } = useAuthContext();
+function EventListItem(props: Event) {
+	const file = `${import.meta.env.VITE_API_URL}/uploads/${props.banner}`;
+
+	const handleViewClick = () => {
+		console.log("handleViewClick");
+	};
 
 	return (
 		<Grid
@@ -84,44 +83,50 @@ function EventListItem(props: EventsMock) {
 			}}
 		>
 			<Grid xs={1}>
-				<Avatar
-					variant="outlined"
-					src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2014/11/formacao_1600x1200-uma-mulher-virtuosa-e-feita-de-esforcos.jpg"
-					sx={{ width: "4.375rem", height: "4.375rem" }}
-				>
-					{user?.urlImagemPerfil
-						? user?.urlImagemPerfil
-						: getInitials(user?.name)}
-				</Avatar>
-			</Grid>
-			<Grid xs={3}>
-				<DataLabelDisplay
-					data={props.talkName}
-					label={props.speakersName}
-				/>
-			</Grid>
-			<Grid xs={2}>
-				<DataLabelDisplay data={props.registered} label="Inscritos" />
-			</Grid>
-			<Grid xs={2}>
-				<DataLabelDisplay data={props.attended} label="Compareceram" />
-			</Grid>
-			<Grid xs={3}>
-				<PlaceDateDisplay date={props.date} place={props.place} />
-			</Grid>
-			<Grid xs={1} sx={{ display: "flex", justifyContent: "flex-end" }}>
-				<IconButton
-					variant="plain"
+				<Card
+					component="li"
 					sx={{
-						width: "1rem",
-						height: "1rem",
-						"&:hover": {
-							backgroundColor: "rgba(0, 0, 0, 0.1)",
-						},
+						width: "5.375rem",
+						height: "4.375rem",
+						flexGrow: 1,
+						border: "none",
 					}}
 				>
-					<ActionsIcon />
-				</IconButton>
+					<CardCover>
+						<img src={file} srcSet={file} loading="lazy" alt="" />
+					</CardCover>
+				</Card>
+			</Grid>
+			<Grid xs={3}>
+				<DataLabelDisplay data={props.name} label={props.abstract} />
+			</Grid>
+			<Grid xs={2}>
+				<DataLabelDisplay data={"0"} label="Inscritos" />
+			</Grid>
+			<Grid xs={2}>
+				<DataLabelDisplay data={"0"} label="Compareceram" />
+			</Grid>
+			<Grid xs={3}>
+				<PlaceDateDisplay date={`${props.dateStart}`} place={""} />
+			</Grid>
+			<Grid xs={1} sx={{ display: "flex", justifyContent: "flex-end" }}>
+				<Dropdown>
+					<MenuButton
+						slots={{ root: IconButton }}
+						slotProps={{
+							root: { variant: "plain", color: "neutral" },
+						}}
+					>
+						<MoreVert />
+					</MenuButton>
+					<Menu>
+						<MenuItem>Editar</MenuItem>
+						<MenuItem onClick={handleViewClick}>
+							Visualizar
+						</MenuItem>
+						<MenuItem>Deletar</MenuItem>
+					</Menu>
+				</Dropdown>
 			</Grid>
 		</Grid>
 	);
