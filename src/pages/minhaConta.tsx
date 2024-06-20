@@ -1,7 +1,7 @@
 import { PageHeader } from "@components/page-header";
 import PageWrapper from "@components/page-wrapper";
 import { Avatar, Box, FormControl, FormLabel, Grid, Input } from "@mui/joy";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 
 const MinhaContaPage = () => {
 	const [formData, setFormData] = useState({
@@ -11,6 +11,15 @@ const MinhaContaPage = () => {
 		email: "Enter your best e-mail",
 		telefone: "Enter your phone",
 	});
+
+	const [imagem, setImagem] = useState<string | null>();
+
+	useEffect(() => {
+		setImagem(localStorage.getItem("imagem"));
+	}, []);
+
+	const base64Image = `data:image/png;base64,${imagem}`; // Sua imagem base64 aqui
+	const imageUrl = `${base64Image}`;
 
 	const [foto, setFoto] = useState<File | null>(null);
 
@@ -22,12 +31,12 @@ const MinhaContaPage = () => {
 		});
 	};
 
-	const handleFotoChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files && e.target.files[0];
-		if (file) {
-			setFoto(file);
-		}
-	};
+	// const handleFotoChange = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	const file = e.target.files && e.target.files[0];
+	// 	if (file) {
+	// 		setFoto(file);
+	// 	}
+	// };
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -54,7 +63,7 @@ const MinhaContaPage = () => {
 								<Grid>
 									<Avatar
 										variant="outlined"
-										src="https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2014/11/formacao_1600x1200-uma-mulher-virtuosa-e-feita-de-esforcos.jpg"
+										src={imageUrl}
 										sx={{
 											width: "5rem",
 											height: "5rem",
